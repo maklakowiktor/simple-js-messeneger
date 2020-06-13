@@ -15,6 +15,8 @@
 	padding: 0;
 }
 
+
+
 /*Validation */
 p * {
 display: block;
@@ -144,6 +146,7 @@ button:focus, .btn:focus{
 #headerText{
 	position: relative;
 	left: 5px;
+	color:#4e5d6e;
 }
 #icon{
 	width: 30px;
@@ -218,14 +221,15 @@ button:focus, .btn:focus{
 	overflow: hidden;
 }
 
+
 .chat-messages {
 	display: flex;
 	flex-direction: column;
 	padding: 30px 30px 70px 30px;
 	height: 100vh;
 	max-height: 90vh;
-	overflow-y: scroll;
-	overflow-x: hidden;
+	overflow-y: scroll; 
+	overflow-x: hidden; 
 	background-color: rgb(230, 235, 238);
 }
 
@@ -480,6 +484,85 @@ label {
 	/* border-color: #fff transparent; */
 	animation: lds-dual-ring 1.2s linear infinite; 
 }
+
+
+/* Промотка вниз */
+
+
+.arrow {
+	position:absolute;
+	cursor: pointer;
+	height: 30px;
+	right: 1%;
+	position: absolute;
+	bottom: 10%;
+	transform: translateX(-50%) translateY(-50%);
+	transform: rotate(90deg);
+	transition: transform 0.1s;
+	width: 20px;
+	opacity:0;
+	transition: .5s !important;	
+  }
+  .arrow-top, .arrow-bottom {
+	background-color: #6a6a6a;
+	height: 3px;
+	left: -5px;
+	position: absolute;
+	top: 50%;
+	width: 100%;
+  }
+  .arrow-top:after, .arrow-bottom:after {
+	background-color: #599be8;
+	content: "";
+	height: 100%;
+	position: absolute;
+	top: 0;
+	transition: all 0.15s;
+  }
+  .arrow-top {
+	transform: rotate(45deg);
+	transform-origin: bottom right;
+  }
+  .arrow-top:after {
+	left: 100%;
+	right: 0;
+	transition-delay: 0s;
+  }
+  .arrow-bottom {
+	transform: rotate(-45deg);
+	transform-origin: top right;
+  }
+  .arrow-bottom:after {
+	left: 0;
+	right: 100%;
+	transition-delay: 0.15s;
+  }
+  .arrow:hover .arrow-top:after {
+	left: 0;
+	transition-delay: 0.15s;
+   
+  }
+  .arrow:hover .arrow-bottom:after {
+	right: 0;
+	transition-delay: 0s;
+	 
+  }
+  /* .arrow:active { */
+  /*   transform: translateX(-50%) translateY(-50%) scale(0.9); */
+  /* } */
+  .arrowDiv{
+	position:absolute;
+	transform: rotate(-90deg);
+	color:#000;
+	font-size:15px;
+	margin-left: -10px;
+	margin-top:53px;
+	margin-right:0px;
+	margin-bottom:0px;
+	border-style:none;
+  }
+  
+
 
 @keyframes lds-dual-ring {
 	0% {
