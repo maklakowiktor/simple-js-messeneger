@@ -81,6 +81,7 @@ socket.on('DeniedReg', (log) => {
 
   errorLogin.innerHTML = `Логин ${log} уже зарегистрирован`;
   errorLogin.style.opacity = '1';
+  login.classList.remove("success");
   login.classList.add("invalid");
   login.value = '';
 })
@@ -89,6 +90,7 @@ socket.on('DeniedReg', (log) => {
 socket.on('invalidAuth', (log) => {
   errorLogin.innerHTML = `Неверный логин ${log} или пароль`;
   errorLogin.style.opacity = '1';
+  login.classList.remove("success");
   login.classList.add("invalid");
   login.value = '';
   buttons[0].classList.toggle("success");
@@ -107,6 +109,7 @@ socket.on('successReg', login => {
 
   errorLogin.innerHTML = `Пользователь ${login} успешно зарегистрирован`;
   errorLogin.style = 'background-color: rgb(46, 112, 33) ; color: #fff; opacity: 1; transition: .5s;';
+  login.classList.remove("invalid");
   login.classList.add("successReg");
 })
 
