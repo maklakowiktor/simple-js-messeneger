@@ -8,6 +8,7 @@ const volume = document.querySelector('.volume');
 const inpMsg = document.getElementById('msg');
 const btn = document.getElementById('SendBtn');
 const downHere = document.getElementById('arrow');
+
 var session = localStorage.getItem('session');
 var sessName = localStorage.getItem('name');
 let notification = null;
@@ -15,6 +16,13 @@ let timeout,
     attaches = false,
     userChat = { username: null, room: null };
 let scrTop, innHeight, scrHeight, scrollBottom, upThere;
+
+inpMsg.onfocus = () =>{
+  if ( (scrTop + innHeight) < scrHeight ){
+    upThere = true;
+    downHere.style.opacity = '1';
+  }
+}
 
 
 
@@ -263,25 +271,28 @@ x.addListener(mobileResolution); // Attach listener function on state changes
   div.appendChild(divt);
   document.querySelector('.chat-messages').appendChild(div);
 }
+// Реакция на скролл
 chatMessages.addEventListener('scroll', function(e) {
   scrTop = chatMessages.scrollTop;
   innHeight = chatMessages.offsetHeight;
   scrHeight = chatMessages.scrollHeight;
-  scrollBottom = scrHeight - (scrTop + innHeight);
-      if (scrollBottom > 0){
-        upThere = true;
-        downHere.style.opacity = '1';
-        // console.log('ВВЕРХУ!');
-      }else {
-        upThere = false;
-        downHere.style.opacity = '0';
-        // console.log('Внизу!');
-      }
-});
-downHere.addEventListener('click', () => {
-  if (upThere === true) {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+  if ( (scrTop + innHeight) >= scrHeight ){
+    upThere = false;
+    downHere.style.opacity = '0';
+    // console.log('Внизу!');
+  }else {
+    upThere = true;
+    downHere.style.opacity = '1';
+    // console.log('ВВЕРХУ!');
   }
+  // scrollBottom = scrHeight - (scrTop + innHeight);
+});
+// Реакция на кнопку скрола
+downHere.addEventListener('click', () => {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    downHere.style.opacity = '0';
+    upThere = false;
+     // console.log('Внизу!');
 })
 
 
