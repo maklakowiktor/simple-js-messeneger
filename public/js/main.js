@@ -174,7 +174,7 @@ async function fetchImage(e) {
 function countFiles(those) {
   let outCf = document.getElementById('countFiles');
   let cf = those.files.length;
-
+  inpMsg.focus();
   if(cf == 0) {
     outCf.innerText = '';
   } else {
