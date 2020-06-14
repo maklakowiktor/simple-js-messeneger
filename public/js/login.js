@@ -110,7 +110,7 @@ socket.on('invalidAuth', (log) => {
   errorLogin.style.opacity = '1';
   login.classList.remove("success");
   login.classList.add("invalid");
-  login.value = '';
+  // login.value = '';
   buttons[0].classList.toggle("success");
 })
 
