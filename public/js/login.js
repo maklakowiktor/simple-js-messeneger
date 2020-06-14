@@ -100,7 +100,7 @@ socket.on('DeniedReg', (log) => {
   login.classList.remove("successReg");
   login.classList.add("invalid");
   errorLogin.style = 'background-color: #900 ; opacity: 1; transition: .5s;';
-  login.value = '';
+  // login.value = '';
 })
 
 
