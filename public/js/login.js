@@ -8,6 +8,20 @@ const buttons = document.querySelectorAll('button');
 const checkInput = document.querySelectorAll('input');
 const showPass = document.getElementById("showPass");
 
+login.addEventListener('input', (el) => { 
+  let val = el.target.value
+  el.target.value = (val.replace(/[\s]/g, ''));
+});
+
+password.addEventListener('input', (el) => { 
+  let val = el.target.value
+  el.target.value = (val.replace(/[\s]/g, ''));
+  
+  
+})
+
+
+
 function ShoMePass(img) {
   if (password.type === "password") {
     password.type = "text";

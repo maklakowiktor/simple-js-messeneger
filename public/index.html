@@ -12,12 +12,12 @@
 		/>
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="shortcut icon" href="./img/icon.svg" type="image/png">
-		<title>Chat</title>
+		<title>Чат - Выбор комнаты</title>
 	</head>
 	<body>
 		<div class="join-container">
 			<header class="join-header">
-				<h1 style="color:rgba(40, 58, 70)"><img src="./img/icon.svg" id="imageBird"><span id="about">Chat</span></h1>
+				<h1 style="color:rgba(40, 58, 70)"><img src="./img/icon.svg" id="imageBird"><span id="about">Чат</span></h1>
 			</header>
 			<main class="join-main">
 				<form action="/chat" id="login-form" method="post">
@@ -35,6 +35,11 @@
 		<script>
 			const btn = document.querySelector('.btn');
 			
+			document.querySelector('input').addEventListener('input', (el) => { 
+			let val = el.target.value
+			el.target.value = (val.replace(/[\s]/g, ''));
+			});
+
 			btn.addEventListener("click", function(){
 				btn.classList.toggle("roomBtn");
 			});

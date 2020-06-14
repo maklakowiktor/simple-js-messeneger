@@ -241,7 +241,7 @@ function mobileResolution(x) {
     document.querySelector('.chat-header>h1').innerHTML = '<img src="../img/icon.svg" id="icon">';
   } else {
     document.querySelector('.btn-send').innerText = ' Отправить';
-    document.querySelector('.chat-header>h1').innerHTML = '<img src="../img/icon.svg" id="icon"><span id="headerText">Chat</span>';
+    document.querySelector('.chat-header>h1').innerHTML = '<img src="../img/icon.svg" id="icon"><span id="headerText">Чат</span>';
   }
 }
 const x = window.matchMedia("(max-width: 475px)");
