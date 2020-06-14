@@ -39,11 +39,13 @@ transition: .5s;
 }
 #login.successReg{
 box-sizing: border-box !important;
-border-color: rgb(176, 253, 176) !important;
+background-color: rgb(244, 255, 244) !important;
+border-color: rgb(0, 136, 0) !important;
 color:black !important;
-background-color: #FDD !important;
 transition: .5s !important;
-}	
+}
+
+
 
 #login, #password {
 font-size: 16px;

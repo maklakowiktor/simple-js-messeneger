@@ -49,6 +49,7 @@ buttons.forEach(item => {
 });
 
 function input(){
+  login.classList.remove('successReg');
   login.classList.remove("invalid");
   errorPass.style.opacity = '0';
   errorLogin.style.opacity = '0';
@@ -96,13 +97,16 @@ socket.on('DeniedReg', (log) => {
   errorLogin.innerHTML = `Логин ${log} уже зарегистрирован`;
   errorLogin.style.opacity = '1';
   login.classList.remove("success");
+  login.classList.remove("successReg");
   login.classList.add("invalid");
+  errorLogin.style = 'background-color: #900 ; opacity: 1; transition: .5s;';
   login.value = '';
 })
 
 
 socket.on('invalidAuth', (log) => {
   errorLogin.innerHTML = `Неверный логин ${log} или пароль`;
+  errorLogin.style = 'background-color: #900; opacity: 1;';
   errorLogin.style.opacity = '1';
   login.classList.remove("success");
   login.classList.add("invalid");
@@ -119,9 +123,9 @@ socket.on('successAuth', (enc, login) => {
   
 })
 
-socket.on('successReg', login => {
+socket.on('successReg', log => {
 
-  errorLogin.innerHTML = `Пользователь ${login} успешно зарегистрирован`;
+  errorLogin.innerHTML = `Пользователь ${log} успешно зарегистрирован`;
   errorLogin.style = 'background-color: rgb(46, 112, 33) ; color: #fff; opacity: 1; transition: .5s;';
   login.classList.remove("invalid");
   login.classList.add("successReg");
