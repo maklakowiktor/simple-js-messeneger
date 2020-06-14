@@ -500,8 +500,7 @@ label {
 	transform: rotate(90deg);
 	transition: transform 0.1s;
 	width: 20px;
-	opacity:0;
-	transition: .5s !important;	
+	visibility: hidden;
   }
   .arrow-top, .arrow-bottom {
 	background-color: #6a6a6a;

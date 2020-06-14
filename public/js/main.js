@@ -20,7 +20,7 @@ let scrTop, innHeight, scrHeight, scrollBottom, upThere;
 inpMsg.onfocus = () =>{
   if ( (scrTop + innHeight) < scrHeight ){
     upThere = true;
-    downHere.style.opacity = '1';
+    downHere.style.visibility = 'visible';
   }
 }
 
@@ -278,11 +278,11 @@ chatMessages.addEventListener('scroll', function(e) {
   scrHeight = chatMessages.scrollHeight;
   if ( (scrTop + innHeight) >= scrHeight ){
     upThere = false;
-    downHere.style.opacity = '0';
+    downHere.style.visibility = 'hidden';
     // console.log('Внизу!');
   }else {
     upThere = true;
-    downHere.style.opacity = '1';
+    downHere.style.visibility = 'visible';
     // console.log('ВВЕРХУ!');
   }
   // scrollBottom = scrHeight - (scrTop + innHeight);
@@ -290,7 +290,7 @@ chatMessages.addEventListener('scroll', function(e) {
 // Реакция на кнопку скрола
 downHere.addEventListener('click', () => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    downHere.style.opacity = '0';
+    downHere.style.visibility = 'hidden';
     upThere = false;
      // console.log('Внизу!');
 })
