@@ -308,6 +308,14 @@ button:focus, .btn:focus{
 	border: 1px solid lightskyblue;
 }
 
+.form-control input[type='password'] {
+	transition: .5s;
+}
+
+.form-control input[type='password']:focus {
+	border: 1px solid lightskyblue;
+}
+
 /* Join Page */
 .join-container {
 	max-width: 500px;
