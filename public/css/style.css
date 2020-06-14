@@ -95,7 +95,9 @@ box-sizing: border-box;
 	
 
 
-
+#room{
+	width: 97%;
+}
 html {
 	scroll-behavior: smooth;
 }

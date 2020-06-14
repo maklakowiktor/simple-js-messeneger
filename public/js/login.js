@@ -125,7 +125,7 @@ socket.on('successAuth', (enc, login) => {
 
 socket.on('successReg', log => {
 
-  errorLogin.innerHTML = `Пользователь ${log} успешно зарегистрирован`;
+  errorLogin.innerHTML = `Логин ${log} успешно зарегистрирован`;
   errorLogin.style = 'background-color: rgb(46, 112, 33) ; color: #fff; opacity: 1; transition: .5s;';
   login.classList.remove("invalid");
   login.classList.add("successReg");
