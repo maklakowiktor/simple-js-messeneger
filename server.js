@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const { regUser, findUser, findMsgs, msgsSendNow } = require('./public/js/mongo');
 const { formatMessage } = require('./utils/messages');
-const { encrypt, decrypt } = require('./public/js/auth')
+const { encrypt, decrypt } = require('./public/js/auth');
 const urlencodedParser = bodyParser.urlencoded({extended: false});
 
 const {
@@ -39,7 +39,7 @@ if(file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimety
   else{
     cb(null, false);
   }
-}
+};
 
 let upload = multer({ storage: storageConfig, fileFilter: fileFilter });
 var cpUpload = upload.fields([{ name: 'img' }]);
@@ -51,7 +51,7 @@ app.get("/", function (req, res) {
 
 app.get("/rooms", function(req, res) {
   res.sendFile(__dirname + '/public/index.html');
-})
+});
 
 // Задаем параметры статических папок
 app.use(express.static(path.join(__dirname, 'public')));
@@ -63,7 +63,7 @@ io.on('connection', socket => {
 
   app.post("/chat", urlencodedParser, function(req, res) {
     // username = req.body.username
-    room =  req.body.room
+    room =  req.body.room;
     res.sendFile(__dirname + '/public/chat.html');
   });
 
@@ -71,14 +71,14 @@ io.on('connection', socket => {
     // let sender = req.body.username;
     // let msg = req.body.msg;
     let file = req.files['img'][0];
-    let imgMessage = { filePath: 'uploads/' + file.filename }
+    let imgMessage = { filePath: 'uploads/' + file.filename };
     res.send(imgMessage);
   });
 
   // Проверка подлиности при загрузке чата
   socket.on('loadClient', async( sess, name ) => {
     let messages = [];
-    console.log('Сессия и имя: ',name, sess)
+    console.log('Сессия и имя: ',name, sess);
     if (sess && name){
       const match = UserMatch(name, sess);
         if (!match) {
@@ -93,18 +93,18 @@ io.on('connection', socket => {
           console.log(`Произошло извлечение ${messages.length} записей в комнату ${room}`);
         };
     } else {
-      console.log('Обманщик!')
-      socket.emit('goAway')
+      console.log('Обманщик!');
+      socket.emit('goAway');
     }
-  })
+  });
 
   //------------------Регистрация пользователя-------------
   socket.on('clickReg', async(login, password) => {
     let user = await regUser(login, password);
         if (!user) {
-          console.log('Отмена регистрации: ', user)
+          console.log('Отмена регистрации: ', user);
           socket.emit('DeniedReg', login); 
-        } else if(user) {
+        } else if (user) {
         console.log(`Пользователь ${login} был сохранён`);
         socket.emit('successReg', login);
       }
@@ -177,7 +177,7 @@ io.on('connection', socket => {
 
   socket.on('serverTyping', (name, room) => {  
     socket.to(room).emit('serverTyping', name);
-  })
+  });
 
 
 });
@@ -187,7 +187,7 @@ const PORT = process.env.PORT || 5000;
 
 app.get("/*", function(req, res) {
   res.redirect('/');
-})
+});
 // mongodb+srv://lincoln:1@cluster0-bwlcs.mongodb.net/login
 async function start() {
   try {
@@ -200,6 +200,6 @@ async function start() {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 start();

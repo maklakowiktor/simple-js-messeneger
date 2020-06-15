@@ -21,14 +21,14 @@ function userJoin(id, username, room) {
         return curUser;
       }
     }
-}
+};
 
 // Получить комнату текущего пользователя
 function getCurrentUser(id) {
   console.log(id);
   return users.find(item => item.id === id);
   // return AllConn.find(item => item.id === id);
-}
+};
 
 // Пользователь покинул чат
 function userLeave(id) {
@@ -38,26 +38,26 @@ function userLeave(id) {
     console.log('Остались: ',users);
     return x;
   }
-}
+};
 
 // Получить всех пользователей в комнате
 function getRoomUsers(room) {
   let filter = users.filter(item => item.room === room);
   console.log('Что отправляется: ',filter)
   return filter;
-}
+};
 
 function UserMatch(name, sess){
   matchUsers = AllConn.find(item =>
     (item.name === name) && (item.sess === sess));
     return matchUsers;
-}
+};
 function connUserPush(name, sess){
   let cUp = {name, sess}
   AllConn.push(cUp);
   console.log('Users: ',AllConn);
   return cUp;
-}
+};
 module.exports = {
   userJoin,
   getCurrentUser,

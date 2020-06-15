@@ -38,18 +38,18 @@
 			const btn = document.querySelector('.btn');
 			
 			document.querySelector('input').addEventListener('input', (el) => { 
-			let val = el.target.value
+			let val = el.target.value;
 			el.target.value = (val.replace(/[\s]/g, ''));
 			});
 
 			btn.addEventListener("click", function(){
 				btn.classList.toggle("roomBtn");
 			});
-			
+
 			let lsn = localStorage.getItem('session');
 			if(!lsn) {
 				window.location.href = '/'
-			}
+			};
 			
 		</script>
 	</body>

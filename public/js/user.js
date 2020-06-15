@@ -4,10 +4,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    pass: String
+        pass: String
  });
-const UserMongo =  mongoose.model('users', UserSchema);
 
+const UserMongo =  mongoose.model('users', UserSchema);
 module.exports = UserMongo;
 
 

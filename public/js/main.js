@@ -24,7 +24,7 @@ inpMsg.onfocus = () =>{
     downHere.style.visibility = 'visible';
     console.log('Там');
   }
-}
+};
 
 
 
@@ -34,12 +34,9 @@ const socket = io();
 socket.on('goAway', () => {
   btn.setAttribute("disabled", "disabled");
   window.location.href = '/';
-  
-
-})
+});
 
 window.onload = () => {
-
   Notification.requestPermission().then( permission => {
     if (permission === "granted") {
       notification = true;
@@ -48,7 +45,7 @@ window.onload = () => {
       volume.firstElementChild.className = 'far fa-bell-slash';
     }
   });
-}
+};
 
 volume.onclick = (e) => {
   if (notification) {
@@ -58,7 +55,7 @@ volume.onclick = (e) => {
     notification = true;
     volume.firstElementChild.className = 'far fa-bell';
   }
-}
+};
 
 
 // Проверка пользователя
@@ -70,7 +67,7 @@ socket.on('joinToChat', async(username, room, messages) => {
   userChat = {
     username,
     room
-  }
+  };
   if (!messages.length) {
     btn.removeAttribute("disabled");
   };
@@ -95,7 +92,7 @@ socket.on('joinToChat', async(username, room, messages) => {
     window.location.href = '/rooms'
   }
 
-})
+});
 
 // Получить комнату и пользователя
 socket.on('roomUsers', ({room, users}) => {
@@ -107,9 +104,9 @@ socket.on('roomUsers', ({room, users}) => {
 // Сообщение от сервера 
 socket.on('message', message => {
   if (upThere === true && message.username !== userChat.username){
-    counterMsg += 1
+    counterMsg += 1;
     spanArrow.innerText = counterMsg;
-  }
+  };
   outputMessage(message);
   btn.removeAttribute("disabled");
   if (notification === true && message.username !== userChat.username && message.username !== 'Чат') {
@@ -117,16 +114,15 @@ socket.on('message', message => {
     let purpose = new Notification(`Новое сообщение от ${message.username}`, {
       icon: '../img/twitter.png',
       body: `${message.text}`
-    })
-   
-    purpose.onclick = x => { window.focus(); this.close() }
+    });
+    purpose.onclick = x => { window.focus(); this.close() };
     purpose.show();
   }
 });
 
 function playAudio() { 
   sound.play();
-} 
+};
 
 // Показываем/скрываем typing
 socket.on('serverTyping', (name) => {
@@ -136,7 +132,7 @@ socket.on('serverTyping', (name) => {
   typingUsers.push(name);
   tps.innerHTML = `${typingUsers} пишет...`;
   timeout = setTimeout(() => { tps.innerHTML = '' }, 3000);
-})
+});
 
 // Отправка сообщения/формы
 chatForm.addEventListener('submit', async e => {
@@ -148,7 +144,7 @@ chatForm.addEventListener('submit', async e => {
   const images = e.target.elements.photo.files[0];
   if (images !== undefined) {
     linkImg = await fetchImage(e);
-  }
+  };
   socket.emit('chatMessage', msg, userChat.username, userChat.room, linkImg);
   document.querySelector('form').reset();
   document.getElementById('countFiles').innerText = '';
@@ -161,7 +157,6 @@ async function fetchImage(e) {
   const image = e.target.elements.photo.files[0];
   const formData = new FormData();
   formData.set('img', image);
-
   try {
     const response = await fetch('/chat/upload', {
       method: 'POST',
@@ -172,8 +167,7 @@ async function fetchImage(e) {
   } catch (error) {
     console.error('Ошибка:', error);
   }
-  
-}
+};
 
 
 function countFiles(those) {
@@ -185,7 +179,7 @@ function countFiles(those) {
   } else {
     outCf.innerText = cf;
   }
-}
+};
 
 // Output message to DOM
 function outputMessage(message) {
@@ -195,7 +189,7 @@ function outputMessage(message) {
   div.classList.add('message');
   if(userChat.username == message.username) {
     div.classList.add('my-message');
-  }
+  };
   const p = document.createElement('p'); // Тег p, содержащий имя и дату письма
   p.classList.add('meta');
   const divt = document.createElement('div');// Создаём второй контейнер, для содержимого сообщения
@@ -205,7 +199,7 @@ function outputMessage(message) {
   divt.innerText = message.text;
   if(message.linkImg) {
     divt.innerHTML = divt.innerHTML + `<div class="img-inner-message"><img class="myImg" src="${message.linkImg}" onclick="openImg(this)"></div>`
-  }
+  };
   
   // Соединяем всё элементы
   div.appendChild(p);
@@ -215,39 +209,30 @@ function outputMessage(message) {
   document.querySelector('.chat-messages').appendChild(div);
 
   if (upThere === false){
-    // myElement = chatMessages.lastElementChild;
-    // var myElementHeight = myElement.offsetHeight;
-    // var topPos = myElement.offsetTop;
-    // var botPos = myElementHeight + topPos;
-    // chatMessages.scrollTop = botPos;
     chatMessages.scrollTop = chatMessages.scrollHeight;
    }
-}
+};
 
 // Add room name to DOM
 function outputRoomName(room) {
   roomName.innerText = room;
-}
+};
 // Add users to DOM
 function outputUsers(users) {
-
 let onlyname = users.map(a => a.username);
 let $withoutDbl =  Array.from(new Set(onlyname));
-
   userList.innerHTML = `
     ${$withoutDbl.map(user => userChat.username == user ? `<li><b>${user}</b> (Вы)</li>` : `<li>${user}</li>`).join('')}
   `;
-
-}
+};
 
 function typing() {
   socket.emit('serverTyping', userChat.username, userChat.room);
-}
+};
 
 const script = document.createElement('script');
 script.src = 'js/modal.js';
 document.querySelector('body').appendChild(script);
-
 
 function mobileResolution(x) {
   if (x.matches) {
@@ -257,14 +242,13 @@ function mobileResolution(x) {
     document.querySelector('.btn-send').innerText = ' Отправить';
     document.querySelector('.chat-header>h1').innerHTML = '<img src="../img/icon.svg" id="icon"><span id="headerText">Чат</span>';
   }
-}
+};
 const x = window.matchMedia("(max-width: 475px)");
 mobileResolution(x); // Call listener function at run time
 x.addListener(mobileResolution); // Attach listener function on state changes
  
   // Output messages history
   function outputOldMessage(message) {
-  
   const div = document.createElement('div');
   div.classList.add('wow');
   div.classList.add('animate__animated');
@@ -272,7 +256,7 @@ x.addListener(mobileResolution); // Attach listener function on state changes
   div.classList.add('message');
   if(userChat.username == message.sender) {
     div.classList.add('my-message');
-  }
+  };
   const p = document.createElement('p');
   p.classList.add('meta');
   const divt = document.createElement('div');
@@ -281,11 +265,11 @@ x.addListener(mobileResolution); // Attach listener function on state changes
   divt.innerText = message.message;
   if(message.img) {
     divt.innerHTML = divt.innerHTML + `<div class="img-inner-message"><img class="myImg" src="${message.img}" onclick="openImg(this)"></div>`
-  }
+  };
   div.appendChild(p);
   div.appendChild(divt);
   document.querySelector('.chat-messages').appendChild(div);
-}
+};
 // Реакция на скролл
 chatMessages.addEventListener('scroll', function(e) {
   scrTop = chatMessages.scrollTop;
@@ -302,26 +286,16 @@ chatMessages.addEventListener('scroll', function(e) {
     downHere.style.visibility = 'visible';
     console.log('true');
   };
-  // if (downHere.style.visibility == 'hidden'){
-  //   console.log('ААА');
-  //   var myElement = chatMessages.lastElementChild;
-  //   var topPos = myElement.offsetTop;
-  //   chatMessages.scrollTop = topPos;
-  // }
-  // scrollBottom = scrHeight - (scrTop + innHeight);
 });
 // Реакция на кнопку скрола
 downHere.addEventListener('click', () => {
-    // myElement = chatMessages.lastElementChild;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    downHere.style.visibility = 'hidden';
+    upThere = false;
+});
+
+ // myElement = chatMessages.lastElementChild;
     // var myElementHeight = myElement.offsetHeight;
     // var topPos = myElement.offsetTop;
     // var botPos = myElementHeight + topPos;
-    // myElement.scrollIntoView({block: "end"});
     // chatMessages.scrollTop = botPos;
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    
-    downHere.style.visibility = 'hidden';
-    upThere = false;
-})
-
-
