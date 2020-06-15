@@ -25,7 +25,7 @@ display: block;
 background: rgba(238, 255, 222) !important; 
 transition: .5s !important;	
 }
-#enterBtn.success{
+.success{
 background: rgba(238, 255, 222) !important; 
 transition: .5s !important;
 }
@@ -38,6 +38,14 @@ transition: .5s;
 	
 }
 #login.successReg{
+box-sizing: border-box !important;
+background-color: rgb(244, 255, 244) !important;
+border-color: rgb(0, 136, 0) !important;
+color:black !important;
+transition: .5s !important;
+}
+
+#password.successReg{
 box-sizing: border-box !important;
 background-color: rgb(244, 255, 244) !important;
 border-color: rgb(0, 136, 0) !important;
@@ -82,15 +90,27 @@ color: rgb(78, 93, 110);
 transition: .5s;
 opacity: 0;
 }
+#errorLogin{
+position: relative;
+top: 4px;
+}
 
+#errorPass{
+position: relative;
+top: 4px;
+}
 
 .error {
 padding: 0.3em;
 font-size: 10pt;
-color: white;
-background-color: #900;
 border-radius: 0 0 5px 5px;
 box-sizing: border-box;
+}
+.prevention{
+color: #900;
+}
+.good{
+color: rgb(46, 112, 33);
 }
 	
 

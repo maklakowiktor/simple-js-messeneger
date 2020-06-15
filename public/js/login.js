@@ -7,6 +7,19 @@ const errorPass = document.getElementById('errorPass');
 const buttons = document.querySelectorAll('button');
 const checkInput = document.querySelectorAll('input');
 const showPass = document.getElementById("showPass");
+let timeoutCheckPass, timeoutCheckLogin;
+
+
+
+function inputIntoFields(el){
+  if (el.name == "login"){
+    errorLogin.style.opacity = '0';
+    login.classList.remove("successReg", "invalid");
+  }else {
+    errorPass.style.opacity = '0';
+    password.classList.remove("invalid", "successReg");
+  };
+};
 
 login.addEventListener('input', (el) => { 
   let val = el.target.value;
@@ -16,7 +29,43 @@ login.addEventListener('input', (el) => {
 password.addEventListener('input', (el) => { 
   let val = el.target.value;
   el.target.value = (val.replace(/[\s]/g, ''));
+  checkPass(val);
 });
+
+
+function checkPass(passValue) {
+
+  let re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[0-9a-zA-Z!@#$%^&*]{4,}$/g;
+  let OK = re.exec(passValue);
+  if ((!OK) && (passValue != "")) {
+    clearTimeout(timeoutCheckPass);
+    password.classList.remove("invalid", "successReg");
+    // password.classList.add("invalid");
+    errorPass.classList.remove("prevention", "good");
+    errorPass.classList.add("prevention");
+    errorPass.innerHTML = `Используйте цифры, строчн., прописные и спец. символы`;
+    errorPass.style.opacity = '1';
+    timeoutCheckPass = setTimeout(() => { 
+    errorPass.innerHTML = '' ;
+    errorPass.style.opacity = '0';
+    }, 10000);
+  } else if (OK) {
+    clearTimeout(timeoutCheckPass);
+    password.classList.remove("invalid", "successReg");
+    password.classList.add("successReg");
+    errorPass.classList.remove("prevention", "good");
+    errorPass.classList.add("good");
+    errorPass.innerHTML = "Пароль удовлетворяет требования"
+    errorPass.style.opacity = '1';
+    timeoutCheckPass = setTimeout(() => { 
+      errorPass.innerHTML = '' ;
+      errorPass.style.opacity = '0';
+      }, 3000);
+  } else {
+      password.classList.remove("invalid", "successReg");
+      errorPass.style.opacity = '0';
+    }
+}; 
 
 function ShoMePass(img) {
   if (password.type === "password") {
@@ -28,9 +77,6 @@ function ShoMePass(img) {
   }
 };
 
-checkInput.forEach(item => {
-  item.addEventListener('mousedown', input);
-});
 
 buttons.forEach(item => {
  function someFunk (e) { 
@@ -39,42 +85,50 @@ buttons.forEach(item => {
   item.addEventListener('click', (e) => someFunk(e));
 });
 
-function input(){
-  login.classList.remove('successReg');
-  login.classList.remove("invalid");
-  errorPass.style.opacity = '0';
-  errorLogin.style.opacity = '0';
-  password.classList.remove("invalid");
-};
+
 
 function valid(e) {
   e.preventDefault();
   if (!login.value && !password.value){
+    clearTimeout(timeoutCheckLogin);
+    login.classList.remove("invalid", "successReg");
+    login.classList.add("invalid");
+    errorLogin.classList.remove("prevention", "good");
+    errorLogin.classList.add("prevention");
     errorLogin.innerHTML = "Авторизуйтесь!";
     errorLogin.style.opacity = '1';
-    login.classList.add("invalid");
-    setTimeout(function() {
-    errorLogin.style.opacity = '0';
-  }, 3000);
+    timeoutCheckLogin = setTimeout(() => { 
+      errorLogin.innerHTML = '';
+      errorLogin.style.opacity = '0';
+      }, 8000);
   }
   else if (!login.value) {
+    clearTimeout(timeoutCheckLogin);
+    login.classList.remove("invalid", "successReg");
+    login.classList.add("invalid");
+    errorLogin.classList.remove("prevention", "good");
+    errorLogin.classList.add("prevention");
     errorLogin.innerHTML = "Введите логин!";
     errorLogin.style.opacity = '1';
-    login.classList.add("invalid");
-    setTimeout(function() {
-    errorLogin.style.opacity = '0';
-  }, 3000);
+    timeoutCheckLogin = setTimeout(() => { 
+      errorLogin.innerHTML = '';
+      errorLogin.style.opacity = '0';
+      }, 8000);
 
   } else if (!password.value){
+
+    clearTimeout(timeoutCheckPass);
+    password.classList.remove("invalid", "successReg");
+    password.classList.add("invalid");
+    errorPass.classList.remove("prevention", "good");
+    errorPass.classList.add("prevention");
     errorPass.innerHTML = "Введите пароль!";
     errorPass.style.opacity = '1';
-    password.classList.add("invalid");
-    setTimeout(function() {
-    errorPass.style.opacity = '0';
-  }, 3000);
-
+    timeoutCheckPass = setTimeout(() => { 
+      errorPass.innerHTML = '' ;
+      errorPass.style.opacity = '0';
+      }, 8000);
   }else if (e.toElement.classList.contains("btn")) {
-    e.toElement.classList.toggle("success");
     socket.emit('clickAuth', login.value, password.value);
   }else {
     socket.emit('clickReg', login.value, password.value);
@@ -82,41 +136,54 @@ function valid(e) {
 };
 
 socket.on('DeniedReg', (log) => {
+  clearTimeout(timeoutCheckLogin);
+  login.classList.remove("invalid", "successReg");
+  login.classList.add("invalid");
+  password.classList.remove("invalid", "successReg");
+  errorLogin.classList.remove("prevention", "good");
+  errorLogin.classList.add("prevention");
   errorLogin.innerHTML = `Логин ${log} уже зарегистрирован`;
   errorLogin.style.opacity = '1';
-  login.classList.remove("success");
-  login.classList.remove("successReg");
-  login.classList.add("invalid");
-  errorLogin.style = 'background-color: #900 ; opacity: 1; transition: .5s;';
-  // login.value = '';
+  timeoutCheckLogin = setTimeout(() => { 
+    errorLogin.innerHTML = '';
+    errorLogin.style.opacity = '0';
+    }, 8000);
 });
 
 socket.on('invalidAuth', (log) => {
-  errorLogin.innerHTML = `Неверный логин ${log} или пароль`;
-  errorLogin.style = 'background-color: #900; opacity: 1;';
-  errorLogin.style.opacity = '1';
-  login.classList.remove("success");
+  clearTimeout(timeoutCheckLogin);
+  login.classList.remove("invalid", "successReg");
   login.classList.add("invalid");
-  // login.value = '';
-  buttons[0].classList.toggle("success");
+  password.classList.remove("invalid", "successReg");
+  password.classList.add("invalid");
+  errorLogin.classList.remove("prevention", "good");
+  errorLogin.classList.add("prevention");
+  errorLogin.innerHTML = `Неверный логин ${log} или пароль`;
+  errorLogin.style.opacity = '1';
+  timeoutCheckLogin = setTimeout(() => { 
+    errorLogin.innerHTML = '';
+    errorLogin.style.opacity = '0';
+    }, 8000);
 });
 
 // Успешная идентификация пользователя
 socket.on('successAuth', (enc, login) => {
-  buttons[0].classList.toggle("success");
+  buttons[0].classList.add("success");
   document.location.href = "/rooms";
   localStorage.setItem('session', enc);
   localStorage.setItem('name', login);
 });
 
 socket.on('successReg', log => {
-  errorLogin.innerHTML = `Логин ${log} успешно зарегистрирован`;
-  errorLogin.style = 'background-color: rgb(46, 112, 33) ; color: #fff; opacity: 1; transition: .5s;';
-  login.classList.remove("invalid");
+  clearTimeout(timeoutCheckLogin);
+  login.classList.remove("invalid", "successReg");
   login.classList.add("successReg");
+  errorLogin.classList.remove("prevention", "good");
+  errorLogin.classList.add("good");
+  errorLogin.innerHTML = `Логин ${log} успешно зарегистрирован`;
+  errorLogin.style.opacity = '1';
+  timeoutCheckLogin = setTimeout(() => { 
+    errorLogin.innerHTML = '';
+    errorLogin.style.opacity = '0';
+    }, 8000);
 });
-
-
-
-
-
