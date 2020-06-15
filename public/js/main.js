@@ -8,19 +8,21 @@ const volume = document.querySelector('.volume');
 const inpMsg = document.getElementById('msg');
 const btn = document.getElementById('SendBtn');
 const downHere = document.getElementById('arrow');
-
+const spanArrow = document.querySelector('.arrowDiv');
+downHere.style.visibility = 'hidden';
 var session = localStorage.getItem('session');
 var sessName = localStorage.getItem('name');
 let notification = null;
 let timeout, 
     attaches = false,
     userChat = { username: null, room: null };
-let scrTop, innHeight, scrHeight, scrollBottom, upThere;
+let scrTop, myElement, counterMsg = 0, innHeight, scrHeight, scrollBottom, upThere = false;
 
 inpMsg.onfocus = () =>{
   if ( (scrTop + innHeight) < scrHeight ){
     upThere = true;
     downHere.style.visibility = 'visible';
+    console.log('Там');
   }
 }
 
@@ -69,13 +71,18 @@ socket.on('joinToChat', async(username, room, messages) => {
     username,
     room
   }
-  if (!messages.length) {btn.removeAttribute("disabled")};
- 
- 
+  if (!messages.length) {
+    btn.removeAttribute("disabled");
+  };
   await Promise.all(messages.map(async (item) => {
     outputOldMessage(item);
     if (messages[messages.length-1] === item){
         btn.removeAttribute("disabled");
+        // myElement = chatMessages.lastElementChild;
+        // var myElementHeight = myElement.offsetHeight;
+        // var topPos = myElement.offsetTop;
+        // var botPos = myElementHeight + topPos;
+        // chatMessages.scrollTop = botPos;
         chatMessages.scrollTop = chatMessages.scrollHeight;
       }
   }));
@@ -99,11 +106,12 @@ socket.on('roomUsers', ({room, users}) => {
 
 // Сообщение от сервера 
 socket.on('message', message => {
+  if (upThere === true && message.username !== userChat.username){
+    counterMsg += 1
+    spanArrow.innerText = counterMsg;
+  }
   outputMessage(message);
   btn.removeAttribute("disabled");
-  if (upThere === false){
-    chatMessages.scrollTop = chatMessages.scrollHeight; // Скролл вниз
-  }
   if (notification === true && message.username !== userChat.username && message.username !== 'Чат') {
     playAudio();
     let purpose = new Notification(`Новое сообщение от ${message.username}`, {
@@ -132,9 +140,8 @@ socket.on('serverTyping', (name) => {
 
 // Отправка сообщения/формы
 chatForm.addEventListener('submit', async e => {
-  e.preventDefault();
   chatMessages.scrollTop = chatMessages.scrollHeight;
-  // Скролл вниз при отправке
+  e.preventDefault();
   btn.setAttribute("disabled", "disabled");
   let linkImg;
   const msg = e.target.elements.msg.value;
@@ -142,9 +149,7 @@ chatForm.addEventListener('submit', async e => {
   if (images !== undefined) {
     linkImg = await fetchImage(e);
   }
-
   socket.emit('chatMessage', msg, userChat.username, userChat.room, linkImg);
-
   document.querySelector('form').reset();
   document.getElementById('countFiles').innerText = '';
   e.target.elements.msg.focus();
@@ -208,6 +213,15 @@ function outputMessage(message) {
   
   // Присоединяем готовое сообщение ко всему диалогу
   document.querySelector('.chat-messages').appendChild(div);
+
+  if (upThere === false){
+    // myElement = chatMessages.lastElementChild;
+    // var myElementHeight = myElement.offsetHeight;
+    // var topPos = myElement.offsetTop;
+    // var botPos = myElementHeight + topPos;
+    // chatMessages.scrollTop = botPos;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+   }
 }
 
 // Add room name to DOM
@@ -250,6 +264,7 @@ x.addListener(mobileResolution); // Attach listener function on state changes
  
   // Output messages history
   function outputOldMessage(message) {
+  
   const div = document.createElement('div');
   div.classList.add('wow');
   div.classList.add('animate__animated');
@@ -276,23 +291,37 @@ chatMessages.addEventListener('scroll', function(e) {
   scrTop = chatMessages.scrollTop;
   innHeight = chatMessages.offsetHeight;
   scrHeight = chatMessages.scrollHeight;
-  if ( (scrTop + innHeight) >= scrHeight ){
+  if ((scrTop + innHeight) >= (scrHeight)){
+    counterMsg = 0;
+    spanArrow.innerText = '';
     upThere = false;
     downHere.style.visibility = 'hidden';
-    // console.log('Внизу!');
-  }else {
+    console.log('false');
+  }else if ((scrTop + innHeight) < (scrHeight)){
     upThere = true;
     downHere.style.visibility = 'visible';
-    // console.log('ВВЕРХУ!');
-  }
+    console.log('true');
+  };
+  // if (downHere.style.visibility == 'hidden'){
+  //   console.log('ААА');
+  //   var myElement = chatMessages.lastElementChild;
+  //   var topPos = myElement.offsetTop;
+  //   chatMessages.scrollTop = topPos;
+  // }
   // scrollBottom = scrHeight - (scrTop + innHeight);
 });
 // Реакция на кнопку скрола
 downHere.addEventListener('click', () => {
+    // myElement = chatMessages.lastElementChild;
+    // var myElementHeight = myElement.offsetHeight;
+    // var topPos = myElement.offsetTop;
+    // var botPos = myElementHeight + topPos;
+    // myElement.scrollIntoView({block: "end"});
+    // chatMessages.scrollTop = botPos;
     chatMessages.scrollTop = chatMessages.scrollHeight;
+    
     downHere.style.visibility = 'hidden';
     upThere = false;
-     // console.log('Внизу!');
 })
 
 

@@ -127,16 +127,12 @@ io.on('connection', socket => {
                 }
           }
   });
-
 // Присоединение пользователя в комнату
 
   socket.on('joinRoom', (username, room) => {
     // Добавление пользователя в массив 'Users'
     const user = userJoin(socket.id, username, room);
-
       socket.join(user.room);
-      
-     
     // Броадкаст приветствия при подключении пользователя
     
       socket.broadcast
@@ -147,14 +143,10 @@ io.on('connection', socket => {
       );
     
     // Отправляем пользователей и комнату
-     
       io.to(user.room).emit('roomUsers', {
         room: user.room,
         users: getRoomUsers(user.room) 
       });
-   
-    
-    
   });
 
 
@@ -163,7 +155,6 @@ io.on('connection', socket => {
      const user = getCurrentUser(socket.id);
       io.to(user.room).emit('message', formatMessage(user.username, msg, linkImg));
       await msgsSendNow(msg, sender, room, linkImg);
-    
   });
 
   // Запуск когда пользователь отключается
