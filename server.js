@@ -5,9 +5,11 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
-const { regUser, findUser, findMsgs, msgsSendNow } = require('./public/js/mongo');
+const hash = require('./public/js/crypto.js');
+const UserMongo = require('./public/js/user');
+const { findUser, findMsgs, msgsSendNow } = require('./public/js/mongo');
 const { formatMessage } = require('./utils/messages');
-const { encrypt, decrypt } = require('./public/js/auth');
+const { encrypt } = require('./public/js/auth');
 const urlencodedParser = bodyParser.urlencoded({extended: false});
 
 const {
@@ -100,14 +102,15 @@ io.on('connection', socket => {
 
   //------------------Регистрация пользователя-------------
   socket.on('clickReg', async(login, password) => {
-    let user = await regUser(login, password);
-        if (!user) {
-          console.log('Отмена регистрации: ', user);
-          socket.emit('DeniedReg', login); 
-        } else if (user) {
+    let user = await UserMongo({name: login, pass: hash(password)}).save((err) => {
+      if (err) {
+        console.log('Отмена регистрации: ', err);
+        socket.emit('DeniedReg', login); 
+      } else {
         console.log(`Пользователь ${login} был сохранён`);
         socket.emit('successReg', login);
       }
+  });
   });
 //------------------Авторизация пользователя-------------
   socket.on('clickAuth', async(login, password) => {

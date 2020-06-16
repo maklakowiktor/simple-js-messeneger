@@ -12,17 +12,17 @@ function encrypt(text){
 };
 
 
-function decrypt(text){
-    try {
-    var decipher = crypto.createDecipheriv(algorithm, key, iv);
-    var decrypted = decipher.update(text,'hex','utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
-  } catch (error) {
-      return false;
-  }
-};
-module.exports = { encrypt, decrypt };
+// function decrypt(text){
+//     try {
+//     var decipher = crypto.createDecipheriv(algorithm, key, iv);
+//     var decrypted = decipher.update(text,'hex','utf8');
+//     decrypted += decipher.final('utf8');
+//     return decrypted;
+//   } catch (error) {
+//       return false;
+//   }
+// };
+module.exports = { encrypt };
   
 
 

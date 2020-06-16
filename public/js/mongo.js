@@ -3,17 +3,6 @@ const MsgsMongo = require('./msgs');
 const hash = require('./crypto.js');
 const { timeNow } = require('../../utils/messages');
 
-async function regUser(login, password){
-    try {
-    const user = await UserMongo({name: login, pass: hash(password)}).save();
-        return user;
-    } catch(err){
-        return false;
-    }
-};
-
-
-
 async function findUser(login, password){
 const user = await UserMongo.
 findOne({ name: login, pass: hash(password)}).exec();
@@ -38,7 +27,6 @@ await MsgsMongo({message: msg, sender, send_time: timeNow().time, room: room, im
 
 
 module.exports = {
-regUser,    
 findUser,
 findMsgs,
 msgsSendNow
