@@ -111,10 +111,11 @@ socket.on('message', message => {
   btn.removeAttribute("disabled");
   if (notification === true && message.username !== userChat.username && message.username !== 'Чат') {
     playAudio();
-    let purpose = new Notification(`Новое сообщение от ${message.username}`, {
+    const options = {
       icon: '../img/twitter.png',
       body: `${message.text}`
-    });
+    };
+    let purpose = new Notification(`Cообщение от ${message.username}`, options);
     purpose.onclick = x => { window.focus(); this.close() };
     purpose.show();
   }

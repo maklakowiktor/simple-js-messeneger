@@ -133,8 +133,11 @@ io.on('connection', socket => {
     // Добавление пользователя в массив 'Users'
     const user = userJoin(socket.id, username, room);
       socket.join(user.room);
+
+    // Приветствие пользователя
+    socket.emit('message', formatMessage(botName, 'Добро пожаловать в чат!'));
+
     // Броадкаст приветствия при подключении пользователя
-    
       socket.broadcast
       .to(user.room)
       .emit(
