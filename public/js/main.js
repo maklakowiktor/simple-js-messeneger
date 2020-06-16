@@ -22,7 +22,6 @@ inpMsg.onfocus = () =>{
   if ( (scrTop + innHeight) < scrHeight ){
     upThere = true;
     downHere.style.visibility = 'visible';
-    console.log('Там');
   }
 };
 
@@ -281,11 +280,9 @@ chatMessages.addEventListener('scroll', function(e) {
     spanArrow.innerText = '';
     upThere = false;
     downHere.style.visibility = 'hidden';
-    console.log('false');
   }else if ((scrTop + innHeight) < (scrHeight)){
     upThere = true;
     downHere.style.visibility = 'visible';
-    console.log('true');
   };
 });
 // Реакция на кнопку скрола
