@@ -72,10 +72,10 @@ function checkPass(passValue) {
 function ShoMePass(img) {
   if (password.type === "password") {
     password.type = "text";
-    img.src = "./img/off.png";
+    img.src = "./img/off.svg";
   } else {
     password.type = "password";
-    img.src = "./img/on.png";
+    img.src = "./img/on.svg";
   }
 };
 
@@ -203,40 +203,40 @@ socket.on('successReg', log => {
     }, 8000);
 });
 
-function generatePass() {
-  let strong = 2;
-  let big;
-  let small;
-  let digits;
-  let special;
-  let pass;
+// function generatePass() {
+//   let strong = 2;
+//   let big;
+//   let small;
+//   let digits;
+//   let special;
+//   let pass;
 
-  let b = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
-  let s = `abcdefghijklmnopqrstuvwxyz`;
-  let d = `1234567890`;
-  let spec = `!@#$%^&*`;
-  let arr = [];
-  for (var i = 0; i < strong; i++) {
-    big = b.charAt(Math.floor(Math.random() * b.length));
-    small = s.charAt(Math.floor(Math.random() * s.length));
-    digits = d.charAt(Math.floor(Math.random() * d.length));
-    special = spec.charAt(Math.floor(Math.random() * spec.length));
-    arr.push(big, small, digits, special);
-  }
-arr.sort(() => Math.random() - 0.5);
-pass = arr.join('');
-navigator.clipboard.writeText(pass);
+//   let b = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+//   let s = `abcdefghijklmnopqrstuvwxyz`;
+//   let d = `1234567890`;
+//   let spec = `!@#$%^&*`;
+//   let arr = [];
+//   for (var i = 0; i < strong; i++) {
+//     big = b.charAt(Math.floor(Math.random() * b.length));
+//     small = s.charAt(Math.floor(Math.random() * s.length));
+//     digits = d.charAt(Math.floor(Math.random() * d.length));
+//     special = spec.charAt(Math.floor(Math.random() * spec.length));
+//     arr.push(big, small, digits, special);
+//   }
+// arr.sort(() => Math.random() - 0.5);
+// pass = arr.join('');
+// navigator.clipboard.writeText(pass);
 
-goodPass = true;
-clearTimeout(timeoutCheckPass);
-password.classList.remove("invalid", "successReg");
-// password.classList.add("successReg");
-errorPass.classList.remove("prevention", "good");
-errorPass.classList.add("good");
-errorPass.innerHTML = "Пароль сгенерирован в буфер обмена";
-errorPass.style.opacity = '1';
-timeoutCheckPass = setTimeout(() => { 
-errorPass.innerHTML = '' ;
-errorPass.style.opacity = '0';
-}, 3000);
-};
+// goodPass = true;
+// clearTimeout(timeoutCheckPass);
+// password.classList.remove("invalid", "successReg");
+// // password.classList.add("successReg");
+// errorPass.classList.remove("prevention", "good");
+// errorPass.classList.add("good");
+// errorPass.innerHTML = "Пароль сгенерирован в буфер обмена";
+// errorPass.style.opacity = '1';
+// timeoutCheckPass = setTimeout(() => { 
+// errorPass.innerHTML = '' ;
+// errorPass.style.opacity = '0';
+// }, 3000);
+// };
