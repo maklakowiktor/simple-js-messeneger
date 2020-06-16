@@ -103,7 +103,7 @@ io.on('connection', socket => {
   //------------------Регистрация пользователя-------------
   socket.on('clickReg', async(login, password) => {
     let user = await UserMongo({name: login, pass: hash(password)}).save((err) => {
-      if (err) {
+      if (!user) {
         console.log('Отмена регистрации: ', err);
         socket.emit('DeniedReg', login); 
       } else {
