@@ -16,3 +16,4 @@ el.target.value = (val.replace(/[\s]/g, ''));
 btn.addEventListener("click", function(){
     btn.classList.toggle("roomBtn");
 });
+
