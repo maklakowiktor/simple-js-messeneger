@@ -102,15 +102,17 @@ io.on('connection', socket => {
 
   //------------------Регистрация пользователя-------------
   socket.on('clickReg', async(login, password) => {
-    let user = await UserMongo({name: login, pass: hash(password)}).save((err) => {
-      if (!user) {
-        console.log('Отмена регистрации: ', err);
-        socket.emit('DeniedReg', login); 
-      } else {
+   
+      let user = await UserMongo({name: login, pass: hash(password)}).save()
+      .then((user) => {
         console.log(`Пользователь ${login} был сохранён`);
         socket.emit('successReg', login);
-      }
-  });
+    })
+      .catch ((err) => {
+        console.log('Отмена регистрации: ', err);
+        socket.emit('DeniedReg', login); 
+      })
+
   });
 //------------------Авторизация пользователя-------------
   socket.on('clickAuth', async(login, password) => {
