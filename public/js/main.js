@@ -132,7 +132,7 @@ socket.on('serverTyping', (name) => {
   let typingUsers = [];
   typingUsers.push(name);
   tps.innerHTML = `${typingUsers} пишет...`;
-  timeout = setTimeout(() => { tps.innerHTML = '' }, 3000);
+  timeout = setTimeout(() => { tps.innerHTML = '' }, 10000);
 });
 
 // Отправка сообщения/формы
