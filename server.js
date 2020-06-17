@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const hash = require('./public/js/crypto.js');
 const UserMongo = require('./public/js/user');
-const { findUser, findMsgs, msgsSendNow } = require('./public/js/mongo');
+const { findUser, findUserDouble, findMsgs, msgsSendNow } = require('./public/js/mongo');
 const { formatMessage } = require('./utils/messages');
 const { encrypt } = require('./public/js/auth');
 const urlencodedParser = bodyParser.urlencoded({extended: false});
@@ -102,17 +102,15 @@ io.on('connection', socket => {
 
   //------------------Регистрация пользователя-------------
   socket.on('clickReg', async(login, password) => {
-   
-      let user = await UserMongo({name: login, pass: hash(password)}).save()
-      .then((user) => {
+        let user = await findUserDouble(login);
+        if(!user) {
+        await UserMongo({name: login, pass: hash(password)}).save(); 
         console.log(`Пользователь ${login} был сохранён`);
         socket.emit('successReg', login);
-    })
-      .catch ((err) => {
-        console.log('Отмена регистрации: ', err);
+        } else {
+        console.log('Отмена регистрации: ', login);
         socket.emit('DeniedReg', login); 
-      })
-
+        }
   });
 //------------------Авторизация пользователя-------------
   socket.on('clickAuth', async(login, password) => {

@@ -9,6 +9,12 @@ findOne({ name: login, pass: hash(password)}).exec();
 return user;
 };
 
+async function findUserDouble(login){
+const user = await UserMongo.
+findOne({ name: login }).exec();
+return user;
+};
+
 
 async function findMsgs(room){
 let msgs = await MsgsMongo
@@ -28,6 +34,7 @@ await MsgsMongo({message: msg, sender, send_time: timeNow().time, room: room, im
 
 module.exports = {
 findUser,
+findUserDouble,
 findMsgs,
 msgsSendNow
 };      
