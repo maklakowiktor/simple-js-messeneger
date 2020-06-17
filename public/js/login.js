@@ -79,6 +79,19 @@ function ShoMePass(img) {
   }
 };
 
+document.addEventListener('keydown', function(e){
+  if (e.ctrlKey && event.key == '/'){
+    e.preventDefault();
+      if (password.type === "password") {
+        password.type = "text";
+        showPass.src = "./img/off.svg";
+      } else {
+        password.type = "password";
+        showPass.src = "./img/on.svg";
+      }
+    }
+});
+
 
 buttons.forEach(item => {
  function someFunk (e) { 
