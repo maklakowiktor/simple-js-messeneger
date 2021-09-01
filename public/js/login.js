@@ -144,7 +144,7 @@ function valid(e) {
       errorPass.innerHTML = '' ;
       errorPass.style.opacity = '0';
       }, 8000);
-  }else if (e.toElement.classList.contains("btn")) {
+  }else if (e.target.classList.contains("btn")) {
     socket.emit('clickAuth', login.value, password.value);
   }else if (goodPass) {
     socket.emit('clickReg', login.value, password.value);

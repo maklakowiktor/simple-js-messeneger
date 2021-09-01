@@ -1,11 +1,11 @@
 # my-chat-app-enter
-Чат реального времени с использованием websockets и Node.js, Express и Socket.io на JS on фронтенде с кастомным пользовательским интерфейсом
+Realtime chat based on Node, express.js, socket.io
 
 ## Использование
 ```
 npm install
 npm run dev
 
-Подключится к localhost:3000
+Go to localhost:3000
 ```
 
