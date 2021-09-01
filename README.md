@@ -8,4 +8,4 @@ npm run dev
 
 Go to localhost:3000
 ```
-Live demo: https://jesseneger.herokuapp.com/
+Live demo: [link](https://jesseneger.herokuapp.com/)
